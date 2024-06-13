@@ -66,7 +66,7 @@ def to_csv(
         "group_index",
     ]
     writer = csv.DictWriter(
-        stdout, fieldnames=fieldnames, encoding="utf-8", quoting=csv.QUOTE_MINIMAL
+        stdout, fieldnames=fieldnames, quoting=csv.QUOTE_MINIMAL
     )
     writer.writeheader()  # this fails in python3?
     results = parsed_filing.get_result()
