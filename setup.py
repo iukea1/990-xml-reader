@@ -20,7 +20,7 @@ setup(
     setup_requires=[
         "setuptools",
     ],
-    install_requires=["requests", "xmltodict", "unicodecsv"],
+    install_requires=["requests", "xmltodict", "django-environ"],
     extras_require={
         "tests": [
             "pytest",
