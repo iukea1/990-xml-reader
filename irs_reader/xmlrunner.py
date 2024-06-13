@@ -1,11 +1,7 @@
 from .filing import Filing
-from .settings import (
-    ALLOWED_VERSIONSTRINGS,
-    CSV_ALLOWED_VERSIONSTRINGS,
-    WORKING_DIRECTORY,
-)
+from .settings import ALLOWED_VERSIONSTRINGS, CSV_ALLOWED_VERSIONSTRINGS
 from .sked_dict_reader import SkedDictReader
-from .standardizer import Documentizer, Standardizer, VersionDocumentizer
+from .standardizer import Documentizer, Standardizer
 
 # from .log_utils import configure_logging
 from .type_utils import listType
@@ -148,30 +144,6 @@ class XMLRunner(object):
         else:
             print("Filing version %s isn't supported for this operation" % this_version)
             return this_filing
-
-    """
-    def run_from_filing_obj(self, this_filing, verbose=False):  
-        
-        #Run from a pre-created filing object.
-        
-        self.whole_filing_data = []
-        self.filing_keyerr_data = []
-        this_filing.process(verbose=verbose)
-        object_id = this_filing.get_object_id()
-        this_version = this_filing.get_version()
-        if this_version in ALLOWED_VERSIONSTRINGS:
-            this_version = this_filing.get_version()
-            schedules = this_filing.list_schedules()
-            ein = this_filing.get_ein()
-            for sked in schedules:
-                sked_dict = this_filing.get_schedule(sked)
-                self._run_schedule(sked, object_id, sked_dict, ein)
-            this_filing.set_result(self.whole_filing_data)
-            this_filing.set_keyerrors(self.filing_keyerr_data)
-            return this_filing
-        else:
-            return this_filing
-    """
 
     def run_sked(self, object_id, sked, verbose=False):
         """

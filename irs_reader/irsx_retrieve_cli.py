@@ -1,6 +1,5 @@
 import argparse
 import os
-import sys
 from zipfile import ZipFile
 
 from .file_utils import stream_download
@@ -79,7 +78,7 @@ def run_cli_retrieve_main(args_read):
     print(
         """
     Please visit https://www.irs.gov/charities-non-profits/form-990-series-downloads
-    To see if any additional files are available. 
+    To see if any additional files are available.
     """
     )
     for year in args_read.year:

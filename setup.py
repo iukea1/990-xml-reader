@@ -23,12 +23,7 @@ setup(
     install_requires=["requests", "xmltodict", "unicodecsv"],
     extras_require={
         "tests": [
-            "nose",
-            "requests",
-            "xmltodict",
-            "unicodecsv",
-            "tox",
-            "tox-pyenv",
+            "pytest",
         ]
     },
     packages=["irsx"],

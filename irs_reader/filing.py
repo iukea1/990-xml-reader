@@ -1,22 +1,14 @@
 import io
 import json
 import os
-import sys
 from collections import OrderedDict
 from xml.parsers.expat import ExpatError
 
 import xmltodict
 
 from .file_utils import get_local_path, get_s3_URL, stream_download, validate_object_id
-from .settings import IRS_READER_ROOT, KNOWN_SCHEDULES
-from .type_utils import (
-    dictType,
-    listType,
-    noneType,
-    orderedDictType,
-    strType,
-    unicodeType,
-)
+from .settings import KNOWN_SCHEDULES
+from .type_utils import dictType, listType, orderedDictType
 
 
 class InvalidXMLException(Exception):

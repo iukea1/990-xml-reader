@@ -1,6 +1,6 @@
 ignorable_keyerrors = ["/ReturnHeader/BuildTS"]
 
-## Todo: put in 2013 / 2015 series canonicals.
+# Todo: put in 2013 / 2015 series canonicals.
 # 2013 vars that no longer exist
 discontinued_2013_vars = [
     "/IRS990ScheduleA/CertificationInd",

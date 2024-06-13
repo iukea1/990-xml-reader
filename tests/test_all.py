@@ -2,16 +2,15 @@ import os
 
 import pytest
 
-from irs_reader.file_utils import validate_object_id
-from irs_reader.filing import Filing
-from irs_reader.irsx_cli import get_parser as get_cli_parser
-from irs_reader.irsx_cli import run_main as run_cli_main
-from irs_reader.irsx_index_cli import get_cli_index_parser, run_cli_index_main
-from irs_reader.object_ids import (object_ids_2015, object_ids_2016,
-                                   object_ids_2017)
-from irs_reader.settings import WORKING_DIRECTORY
-from irs_reader.standardizer import Standardizer
-from irs_reader.xmlrunner import XMLRunner
+from irsx.file_utils import validate_object_id
+from irsx.filing import Filing
+from irsx.irsx_cli import get_parser as get_cli_parser
+from irsx.irsx_cli import run_main as run_cli_main
+from irsx.irsx_index_cli import get_cli_index_parser, run_cli_index_main
+from irsx.object_ids import object_ids_2015, object_ids_2016, object_ids_2017
+from irsx.settings import WORKING_DIRECTORY
+from irsx.standardizer import Standardizer
+from irsx.xmlrunner import XMLRunner
 
 FILING_2015V21 = "201642229349300909"
 FILING_2015V21_skeds = [

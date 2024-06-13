@@ -1,5 +1,4 @@
 import argparse
-import sys
 from datetime import date
 
 from .file_utils import get_index_file_URL, get_local_index_path, stream_download

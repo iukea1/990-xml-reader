@@ -6,7 +6,7 @@ import sys
 
 import unicodecsv
 
-from .standardizer import Documentizer, Standardizer, VersionDocumentizer
+from .standardizer import VersionDocumentizer
 
 BRACKET_RE = re.compile(r"\[.*?\]")
 
@@ -114,7 +114,7 @@ def to_txt(
         for result in results:
             for this_result in result["csv_line_array"]:
 
-                #### Collect the variables we need
+                # Collect the variables we need
                 vardata = None
                 textoutput = "\n"  # This is what we'll eventually write out
                 this_result["form"] = this_result["xpath"].split("/")[1]
@@ -137,7 +137,7 @@ def to_txt(
                 )
                 this_result["description"] = debracket(raw_description)
 
-                #### Write the output, now that we've got the vars
+                # Write the output, now that we've got the vars
 
                 if this_sked_name != this_result["form"]:
                     textoutput += (

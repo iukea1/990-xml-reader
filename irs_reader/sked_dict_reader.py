@@ -1,6 +1,5 @@
 from .flatten_utils import flatten
 from .keyerror_utils import ignorable_keyerror
-from .settings import LOG_KEY
 from .type_utils import (
     dictType,
     listType,
@@ -228,7 +227,8 @@ class SkedDictReader(object):
             pass
 
         elif this_node_type == strType:
-            msg = "String '%s'" % json_node
+            pass
+            # msg = "String '%s'" % json_node
             # self.logging.debug(msg)
         else:
             raise Exception("Unhandled type: %s" % (type(json_node)))

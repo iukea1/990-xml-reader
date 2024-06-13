@@ -1,5 +1,4 @@
 import os
-import sys
 
 from .dir_utils import mkdir_p
 
@@ -117,7 +116,7 @@ ALLOWED_VERSIONSTRINGS = [
 ]
 
 # 2020 is experimental
-# see https://www.irs.gov/charities-non-profits/ty2020-xml-schemas-and-business-rules-for-exempt-organizations-modernized-e-file
+# see https://www.irs.gov/charities-non-profits/ty2020-xml-schemas-and-business-rules-for-exempt-organizations-modernized-e-file # noqa
 
 # We can capture the group structure for these so it doesn't break
 # but these versions ARE NOT supported and aren't mapped to IRSx variables
@@ -145,6 +144,6 @@ LOG_KEY = "xml"
 mkdir_p([WORKING_DIRECTORY, INDEX_DIRECTORY])
 
 try:
-    from .local_settings import *
+    from .local_settings import *  # noqa
 except ImportError:
     pass

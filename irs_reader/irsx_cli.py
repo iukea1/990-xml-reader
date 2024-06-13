@@ -1,8 +1,8 @@
 import argparse
 
 from .filing import Filing
-from .settings import IRS_READER_ROOT, KNOWN_SCHEDULES
-from .text_format_utils import *
+from .settings import KNOWN_SCHEDULES
+from .text_format_utils import to_csv, to_json, to_txt
 from .xmlrunner import XMLRunner
 
 
