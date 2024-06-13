@@ -48,11 +48,12 @@ def to_csv(
 ):
     if not vd:
         vd = VersionDocumentizer()
-    stdout = getattr(sys.stdout, "buffer", sys.stdout)
-    if outfilepath:
-        stdout = open(outfilepath, "wb")  # or 'wb' ?
 
-    fieldnames = []
+    if outfilepath:
+        out_file = open(outfilepath, "w")
+    else:
+        out_file = sys.stdout
+
     fieldnames = [
         "object_id",
         "form",
@@ -65,7 +66,7 @@ def to_csv(
         "group_name",
         "group_index",
     ]
-    writer = csv.DictWriter(stdout, fieldnames=fieldnames, quoting=csv.QUOTE_MINIMAL)
+    writer = csv.DictWriter(out_file, fieldnames=fieldnames, quoting=csv.QUOTE_MINIMAL)
     writer.writeheader()  # this fails in python3?
     results = parsed_filing.get_result()
 
