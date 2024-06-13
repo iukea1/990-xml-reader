@@ -40,7 +40,7 @@ jobs:
     - name: Check black
       run: black --check irs_reader tests
     - name: isort
-      run: isort --check-only irs_reader tests
+      run: isort --profile=black --check-only irs_reader tests
     - name: Test with pytest
       run: |
         pytest
