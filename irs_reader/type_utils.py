@@ -6,6 +6,6 @@ from collections import OrderedDict
 dictType = type(dict())
 orderedDictType = type(OrderedDict())
 listType = type(list())
-unicodeType = type(u'')
+unicodeType = type("")
 noneType = type(None)
-strType = type('')
+strType = type("")

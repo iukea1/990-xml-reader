@@ -1,11 +1,11 @@
-import sys
 import argparse
+import sys
 from datetime import date
-from .file_utils import get_index_file_URL, get_local_index_path, \
-    stream_download
+
+from .file_utils import get_index_file_URL, get_local_index_path, stream_download
 
 this_year = date.today().year
-INDEXED_YEARS = [str(i) for i in range(2011, this_year+1)]
+INDEXED_YEARS = [str(i) for i in range(2011, this_year + 1)]
 
 
 def get_cli_index_parser():
@@ -14,15 +14,16 @@ def get_cli_index_parser():
         "--year",
         choices=INDEXED_YEARS,
         default=None,
-        help='Optionally update an index file'
+        help="Optionally update an index file",
     )
 
     parser.add_argument(
-        '--verbose',
-        dest='verbose',
-        action='store_const',
-        const=True, default=False,
-        help='Verbose output'
+        "--verbose",
+        dest="verbose",
+        action="store_const",
+        const=True,
+        default=False,
+        help="Verbose output",
     )
     return parser
 

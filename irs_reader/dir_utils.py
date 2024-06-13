@@ -3,7 +3,7 @@ import os
 
 
 def mkdir_p(paths):
-    """ Makedirs, from http://stackoverflow.com/a/600612 """
+    """Makedirs, from http://stackoverflow.com/a/600612"""
     for path in paths:
         try:
             os.makedirs(path)

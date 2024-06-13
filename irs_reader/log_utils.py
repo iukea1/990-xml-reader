@@ -1,5 +1,6 @@
 import logging
-from .settings import LOG_KEY, KEYERROR_LOG
+
+from .settings import KEYERROR_LOG, LOG_KEY
 
 
 def configure_logging(name=LOG_KEY):
@@ -7,7 +8,8 @@ def configure_logging(name=LOG_KEY):
     logger.setLevel(logging.INFO)
     # Format
     formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
 
     # Setup console logging
     ch = logging.StreamHandler()

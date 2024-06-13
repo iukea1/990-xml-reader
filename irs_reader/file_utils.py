@@ -1,11 +1,17 @@
-import re
 import os
+import re
+from datetime import datetime
+
 import requests
 
-from datetime import datetime
-from .settings import IRS_XML_HTTP_BASE, WORKING_DIRECTORY, INDEX_DIRECTORY, IRS_INDEX_BASE
+from .settings import (
+    INDEX_DIRECTORY,
+    IRS_INDEX_BASE,
+    IRS_XML_HTTP_BASE,
+    WORKING_DIRECTORY,
+)
 
-OBJECT_ID_RE = re.compile(r'20\d{16}')
+OBJECT_ID_RE = re.compile(r"20\d{16}")
 
 # Not sure how much detail we need to go into here
 OBJECT_ID_MSG = """
@@ -18,30 +24,28 @@ To find the object id, see the yearly index csv files.
 
 
 def stream_download(url, target_path, verbose=False):
-    """ Download a large file without loading it into memory. """
+    """Download a large file without loading it into memory."""
     response = requests.get(url, stream=True)
     handle = open(target_path, "wb")
     if verbose:
         print("Beginning streaming download of %s" % url)
         start = datetime.now()
         try:
-            content_length = int(response.headers['Content-Length'])
-            content_MB = content_length/1048576.0
+            content_length = int(response.headers["Content-Length"])
+            content_MB = content_length / 1048576.0
             print("Total file size: %.2f MB" % content_MB)
         except KeyError:
-            pass      # allow Content-Length to be missing
+            pass  # allow Content-Length to be missing
     for chunk in response.iter_content(chunk_size=512):
-        if chunk:     # filter out keep-alive new chunks
+        if chunk:  # filter out keep-alive new chunks
             handle.write(chunk)
 
     if verbose:
-        print(
-            "Download completed to %s in %s" %
-            (target_path, datetime.now() - start))
+        print("Download completed to %s in %s" % (target_path, datetime.now() - start))
 
 
 def validate_object_id(object_id):
-    """ It's easy to make a mistake entering these, validate the format """
+    """It's easy to make a mistake entering these, validate the format"""
     result = re.match(OBJECT_ID_RE, str(object_id))
     if not result:
         print("'%s' appears not to be a valid 990 object_id" % object_id)
@@ -49,9 +53,8 @@ def validate_object_id(object_id):
     return object_id
 
 
-# Files are no longer available on S3
-# def get_s3_URL(object_id):
-#     return ("%s/%s_public.xml" % (IRS_XML_HTTP_BASE, object_id))
+def get_s3_URL(object_id):
+    return "%s/%s_public.xml" % (IRS_XML_HTTP_BASE, object_id)
 
 
 def get_local_path(object_id):

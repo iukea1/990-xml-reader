@@ -1,11 +1,14 @@
+import collections
 import os
 import sys
-import collections
-#import logging
+
+# import logging
 from datetime import datetime
-from .settings import METADATA_DIRECTORY, KEYERROR_LOG
+
+from .settings import KEYERROR_LOG, METADATA_DIRECTORY
 from .sked_dict_reader import SkedDictReader
 from .type_utils import listType
+
 if sys.version_info >= (3, 0):
     import csv
 else:
@@ -15,40 +18,38 @@ else:
 class Standardizer(object):
     """
     This reads metadata .csv files, which it uses to standardize
-    ordered dicts. For documentation, see Documentizer below. 
+    ordered dicts. For documentation, see Documentizer below.
     """
 
     def __init__(self):
-        #self.show_documentation = documentation
+        # self.show_documentation = documentation
         self.groups = {}
         self.variables = {}
         self.schedule_parts = {}
 
         # This is overridden for Documentizer class below
-        self.variable_columns =['db_table', 'db_name']
+        self.variable_columns = ["db_table", "db_name"]
 
         self._make_groups()
         self._make_variables()
 
-
     def _make_groups(self):
-        group_filepath = os.path.join(METADATA_DIRECTORY, 'groups.csv')
-        with open(group_filepath, 'r') as reader_fh:
+        group_filepath = os.path.join(METADATA_DIRECTORY, "groups.csv")
+        with open(group_filepath, "r") as reader_fh:
             reader = csv.DictReader(reader_fh)
             for row in reader:
-                self.groups[row['xpath']] = row
+                self.groups[row["xpath"]] = row
         return True
 
     def _make_variables(self):
-        variable_filepath = os.path.join(METADATA_DIRECTORY, 'variables.csv')
-        with open(variable_filepath, 'r') as variable_fh:
+        variable_filepath = os.path.join(METADATA_DIRECTORY, "variables.csv")
+        with open(variable_filepath, "r") as variable_fh:
             reader = csv.DictReader(variable_fh)
             for row in reader:
                 vardict = {}
                 for col in self.variable_columns:
-                    vardict[col]=row[col]
-                self.variables[row['xpath']] = vardict
-
+                    vardict[col] = row[col]
+                self.variables[row["xpath"]] = vardict
 
         return True
 
@@ -58,27 +59,35 @@ class Standardizer(object):
     def get_var(self, var_xpath, version=None):
         if version:
             raise Exception("Version checking is not implemented")
-        return (self.variables[var_xpath])
+        return self.variables[var_xpath]
 
     def get_documentation_status(self):
         return False
 
 
 class Documentizer(Standardizer):
-    """ Like Standardizer, but returns canonical documentation info from 2016 version """
+    """Like Standardizer, but returns canonical documentation info from 2016 version"""
 
     def __init__(self, versions=False):
         self.groups = {}
         self.variables = {}
         self.schedule_parts = {}
 
-        self.variable_columns =[
-            'db_table', 'db_name', 'ordering', 
-            'line_number', 'description', 'db_type',
-            'irs_type', 'xpath'
+        self.variable_columns = [
+            "db_table",
+            "db_name",
+            "ordering",
+            "line_number",
+            "description",
+            "db_type",
+            "irs_type",
+            "xpath",
         ]
         if versions:
-            self.variable_columns = self.variable_columns + ['version_start', 'version_end']
+            self.variable_columns = self.variable_columns + [
+                "version_start",
+                "version_end",
+            ]
 
         self._make_schedule_parts()
         self._make_groups()
@@ -88,17 +97,16 @@ class Documentizer(Standardizer):
         return True
 
     def _make_schedule_parts(self):
-        part_filepath = os.path.join(METADATA_DIRECTORY, 'schedule_parts.csv')
-        with open(part_filepath, 'r') as reader_fh:
+        part_filepath = os.path.join(METADATA_DIRECTORY, "schedule_parts.csv")
+        with open(part_filepath, "r") as reader_fh:
             reader = csv.DictReader(reader_fh)
             for row in reader:
-                self.schedule_parts[row['parent_sked_part']] = {
-                    'name': row['part_name'],
-                    'ordering': row['ordering'],
-                    'parent_sked': row['parent_sked'],
-                    'parent_sked_part': row['parent_sked_part'],
-                    'is_shell': row['is_shell']
-
+                self.schedule_parts[row["parent_sked_part"]] = {
+                    "name": row["part_name"],
+                    "ordering": row["ordering"],
+                    "parent_sked": row["parent_sked"],
+                    "parent_sked_part": row["parent_sked_part"],
+                    "is_shell": row["is_shell"],
                 }
         return True
 
@@ -107,35 +115,34 @@ class Documentizer(Standardizer):
 
     def part_ordering(self, partname):
         try:
-            result = int(self.schedule_parts[partname]['ordering'])
+            result = int(self.schedule_parts[partname]["ordering"])
             return result
         except KeyError:
             return None
 
     def group_ordering(self, groupname):
         try:
-            return self.groups[groupname]['ordering']
+            return self.groups[groupname]["ordering"]
         except KeyError:
             return None
 
     def get_groups_by_sked(self, sked):
         groups = []
         for thisgroup in self.groups.keys():
-            if self.groups[thisgroup]['parent_sked'] == sked:
+            if self.groups[thisgroup]["parent_sked"] == sked:
                 groups.append(self.groups[thisgroup])
         return groups
 
     def get_parts_by_sked(self, sked):
         parts = []
         for thispart in self.schedule_parts.keys():
-            #print(self.schedule_parts[thispart])
-            if self.schedule_parts[thispart]['parent_sked'] == sked:
+            # print(self.schedule_parts[thispart])
+            if self.schedule_parts[thispart]["parent_sked"] == sked:
                 parts.append(self.schedule_parts[thispart])
         return parts
 
     def get_variables(self):
         return self.variables
-
 
 
 class VersionDocumentizer(object):
@@ -158,31 +165,30 @@ class VersionDocumentizer(object):
         return result
 
     def _make_line_numbers(self):
-        filepath = os.path.join(METADATA_DIRECTORY, 'line_numbers.csv')
-        with open(filepath, 'r') as reader_fh:
+        filepath = os.path.join(METADATA_DIRECTORY, "line_numbers.csv")
+        with open(filepath, "r") as reader_fh:
             reader = csv.DictReader(reader_fh)
 
             for row in reader:
                 try:
-                    self.line_numbers[row['xpath']]
-                    self.line_numbers[row['xpath']].append(row)
+                    self.line_numbers[row["xpath"]]
+                    self.line_numbers[row["xpath"]].append(row)
 
                 except KeyError:
-                    self.line_numbers[row['xpath']] = [row]
+                    self.line_numbers[row["xpath"]] = [row]
 
     def _make_descriptions(self):
-        filepath = os.path.join(METADATA_DIRECTORY, 'descriptions.csv')
-        with open(filepath, 'r') as reader_fh:
+        filepath = os.path.join(METADATA_DIRECTORY, "descriptions.csv")
+        with open(filepath, "r") as reader_fh:
             reader = csv.DictReader(reader_fh)
 
             for row in reader:
                 try:
-                    self.descriptions[row['xpath']]
-                    self.descriptions[row['xpath']].append(row)
+                    self.descriptions[row["xpath"]]
+                    self.descriptions[row["xpath"]].append(row)
 
                 except KeyError:
-                    self.descriptions[row['xpath']] = [row]
-
+                    self.descriptions[row["xpath"]] = [row]
 
     def get_line_number(self, xpath, version_string):
         candidate_rows = []
@@ -192,8 +198,10 @@ class VersionDocumentizer(object):
             return None
 
         for row in candidate_rows:
-            if self.check_version(version_string, row['version_start'], row['version_end']):
-                return row['line_number']
+            if self.check_version(
+                version_string, row["version_start"], row["version_end"]
+            ):
+                return row["line_number"]
 
         return None
 
@@ -204,7 +212,8 @@ class VersionDocumentizer(object):
         except KeyError:
             return None
         for row in candidate_rows:
-            if self.check_version(version_string, row['version_start'], row['version_end']):
-                return row['description']
+            if self.check_version(
+                version_string, row["version_start"], row["version_end"]
+            ):
+                return row["description"]
         return None
-
