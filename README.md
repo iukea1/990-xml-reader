@@ -286,21 +286,11 @@ For example:
 
 ### Legacy configuration ###
 
-You also can configure IRSx's cache location by setting the local_settings.py file. To figure out where that settings file is, log in to a terminal and type:
+You also can configure IRSx's cache location by setting an environmntal variable.
 
-	>>> from irsx.settings import IRSX_SETTINGS_LOCATION
-	>>> IRSX_SETTINGS_LOCATION
-	'/long/path/to/lib/python3.6/site-packages/irsx/settings.py'
-
-[ If you get an error, try upgrading irsx with `pip install irsx --upgrade` -- this feature was added in 0.1.1. ]
-
-
-Go to that directory. You can either modify the settings.py file or the local_settings.py file. To do the latter, first `cd` into the directory where the settings files live and run:
-
-	$ cp local_settings.py-example local_settings.py
-
-Then edit local_settings.py to set WORKING\_DIRECTORY to where the raw xml files are found. 
-
+```console
+> export IRSX_CACHE_DIRECTORY=/where/you/like
+```
 
 ## IRSx from python 
 
