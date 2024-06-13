@@ -1,7 +1,6 @@
 import os
 
 import pytest
-
 from irsx.file_utils import validate_object_id
 from irsx.filing import Filing
 from irsx.irsx_cli import get_parser as get_cli_parser
