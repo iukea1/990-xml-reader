@@ -4,8 +4,6 @@ import json
 import re
 import sys
 
-import unicodecsv
-
 from .standardizer import VersionDocumentizer
 
 BRACKET_RE = re.compile(r"\[.*?\]")
@@ -67,7 +65,7 @@ def to_csv(
         "group_name",
         "group_index",
     ]
-    writer = unicodecsv.DictWriter(
+    writer = csv.DictWriter(
         stdout, fieldnames=fieldnames, encoding="utf-8", quoting=csv.QUOTE_MINIMAL
     )
     writer.writeheader()  # this fails in python3?
