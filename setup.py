@@ -1,6 +1,7 @@
 from distutils.core import setup
 import os
 
+
 NAME = "irsx"
 HUMAN_NAME = "irsx"
 HERE = os.path.abspath(os.path.dirname(__file__))
